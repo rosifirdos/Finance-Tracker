@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001/api';
@@ -14,6 +15,7 @@ const formatRupiah = (number) => {
 };
 
 const AddTransactionForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         userId: 1, // Hardcoded untuk sementara
         walletId: '',
@@ -127,8 +129,10 @@ const AddTransactionForm = () => {
                 note: ''
             });
 
-            // Clear success message after 3 seconds
-            setTimeout(() => setSuccess(''), 3000);
+            // Redirect to dashboard after 2 seconds
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
 
         } catch (err) {
             console.error('Error creating transaction:', err);
@@ -158,6 +162,13 @@ const AddTransactionForm = () => {
             <div className="max-w-md mx-auto">
                 {/* Header */}
                 <div className="mb-6">
+                    <button
+                        onClick={() => navigate('/')}
+                        className="mb-4 flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+                    >
+                        <span className="text-xl">←</span>
+                        <span className="font-medium">Kembali</span>
+                    </button>
                     <h1 className="text-3xl font-bold text-gray-800 mb-2">
                         Tambah Transaksi
                     </h1>
